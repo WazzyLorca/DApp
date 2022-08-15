@@ -1,0 +1,126 @@
+<%- include partials/header.ejs %>
+
+<head>
+  <title>Contact</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<main class="main-content">
+    <div class="contact-form-container">
+      <div class="container">
+        <div class="card-blur-contact-us">
+          <h3>
+            If you would like to contact us, please use the form provided!
+          </h3>
+          <!-- starter form -->
+          <form
+            id="contactForm"
+            onsubmit="return validateForm();"
+            action="mailto:x21147574@student.ncirl.ie"
+          >
+            <!-- Name input -->
+            <div class="form-input">
+              <label class="form-label" for="name">Name</label>
+              <input
+                class="form-control"
+                id="name"
+                type="text"
+                placeholder="Name"
+                onchange="isNameValid();"
+                required
+              />
+              <div id="name-error"></div>
+            </div>
+
+            <!-- Email address input -->
+            <div class="form-input">
+              <label class="form-label" for="emailAddress"
+                >Email Address</label
+              >
+              <input
+                name="email"
+                class="form-control"
+                id="emailAddress"
+                type="email"
+                placeholder="Email Address"
+                onchange="isEmailValid();"
+                required
+              />
+              <div id="email-error"></div>
+            </div>
+
+            <!-- User Subject Topic choice -->
+            <div class="form-input">
+              <label for="subject" class="form-label"> Subject</label>
+
+              <select
+                id="subject"
+                name="subject"
+                class="form-control input-sm"
+                onchange="isSubjectValid();"
+              > <!-- User cant choose "choose one:" its been greyed out -->
+                <option disabled value="na" selected="">Choose One:</option>
+                <option value="general">General Enquiry</option>
+                <option value="studioprod">Game Issue</option>
+                <option value="singing">Crypto Wallet Help</option>
+                <option value="homeprod">Lorcan Coin Issue</option>
+                <option value="suggestions">Suggestions</option>
+               </select>
+              <div id="subject-error"></div>
+            </div>
+
+            <!-- User Message input -->
+            <div class="form-input">
+              <label class="form-label" for="message">Message</label>
+              <textarea
+                class="form-control"
+                id="message"
+                placeholder="Message"
+                style="height: 10rem"
+                onchange="isMessageValid();"
+                required
+              ></textarea>
+              <div id="message-error"></div>
+            </div>
+
+            <!-- Form submit button -->
+            <div class="d-grid">
+              <button
+                class="btn btn-dark btn-lg"
+                type="submit"
+                onclick="return validateForm();"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- closs class "container" -->
+  </main>
+  <footer>
+    <div class="container">
+      <div class="footer-blur">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="footer-blur-content">
+              <h3>About this project</h3>
+              <p>
+                This app is an academic project for the course of Blockchain in National College Ireland
+                <br />For more information about the project, please ask.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+<%- include partials/footer.ejs %> 

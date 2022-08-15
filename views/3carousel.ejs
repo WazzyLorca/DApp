@@ -1,0 +1,50 @@
+<%- include partials/header.ejs %>
+
+<head>
+  <title>Carousel</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+    body {background-color: rgb(103, 219, 248);}
+  </style>
+</head>
+
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+    <li data-target="#myCarousel" data-slide-to="1"></li>
+    <li data-target="#myCarousel" data-slide-to="2"></li>
+  </ol>
+
+  <!-- Wrapper for slides -->
+<main class="container">
+ <header class="text-md-center">
+  <div class="carousel-inner">
+    <div class="item active">
+      <img src="https://businessblockchainhq.com/wp-content/uploads/2019/01/The_Future_Of_Smart_Contracts.jpg" alt="slide one">
+      </div>
+
+    <div class="item">
+      <img src="https://rockitcoin.com/wp-content/uploads/2021/02/Rockitcoin_Infographic_Ethereum@1x-1024x659.png" alt="slide two">
+      </div>
+
+    <div class="item">
+      <img src="https://101blockchains.com/wp-content/uploads/2019/07/Blockchain-technology-explained.jpg" alt="slide three">
+      </div>
+
+        <!-- Left and right controls -->
+        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+          <span class="glyphicon glyphicon-chevron-left"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" data-slide="next">
+          <span class="glyphicon glyphicon-chevron-right"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+ </header>
+</main>

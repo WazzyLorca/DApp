@@ -1,0 +1,190 @@
+<%- include partials/header.ejs %>
+
+<head>
+    <title>LorcanCoin</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
+    <link href="../public/stylesheets/style.css" rel="stylesheet" type="text/css"/>
+    <style>
+        body {background-color: rgb(103, 219, 248);}
+        main {
+            background-color: rgb(146, 164, 214);
+            font-family: tahoma;
+            font-size: 33px;
+            display: flex;
+            flex-direction: row;
+        }
+      </style>
+
+</head>
+<body>
+  <main class="container">
+     <header class="text-md-center"> 
+          <button onclick="connectMetamask()">CONNECT TO METAMASK</button> <br>
+        <p id="accountArea">Connection Status: NOT CONNECTED to Metamask </p>
+      
+        <button onclick="connectContract()">CONNECT TO CONTRACT</button> <br>
+        <p id="contractArea">Connection Status: NOT CONNECTED to Smart Contract</p>
+      
+        <button onclick="monsters()">GET Monster FROM CONTRACT</button> <br>
+        <p id="dataArea">Data Status: NO Data from Smart Contract </p>
+      
+        <button onclick="createMonster()">Create Monster ON THE SMART CONTRACT</button> <br>
+         <input type="text" id="inputArea"> 
+
+        <button onclick="battle()">Battle Monsters ON THE SMART CONTRACT</button> <br>
+        <input type="text" id="inputArea"> 
+        <input type="text" id="inputArea"> 
+      
+      </header>
+  </main>
+  
+      <script>
+          let account;
+          const connectMetamask = async () => {
+              if(window.ethereum !== "undefined"){
+                  const accounts = await ethereum.request({method: "eth_requestAccounts"});
+                  account = accounts[0];
+                  document.getElementById("accountArea").innerHTML = `Account is: ${account}`;
+              }
+  
+          }
+  
+          const connectContract = async () => {
+              const ABI = [
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_monsterId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_targetId",
+				"type": "uint256"
+			}
+		],
+		"name": "battle",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_name",
+				"type": "string"
+			}
+		],
+		"name": "createMonster",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "CryptoMonsters",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "addressToPay",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "monsters",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "level",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "attackStrength",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "defenseStrength",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "lorcanCoin",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+              const Address = "0xfa37404aAA75448f8102719a40DD1089707863CA";
+              window.web3 = await new Web3(window.ethereum);
+              window.contract = await new window.web3.eth.Contract(ABI, Address);
+              document.getElementById("contractArea").innerHTML = "Connection Status: Success";
+          }
+  
+          const monsters = async () => {
+              const data = await window.contract.methods.monsters().call(); // methods is a convention to access the smart contract functions //read is call // value is write
+              document.getElementById("dataArea").innerHTML = `Monster is: ${data}`;
+          }
+  
+          const createMonster = async () => {
+              const myEntry = document.getElementById("inputArea").value;
+              await window.contract.methods.createMonster(myEntry).send({ from: account }); // send to account to change value 
+          }
+      </script>
+</body>
+
+
+  
+
+<%- include partials/footer.ejs %> 

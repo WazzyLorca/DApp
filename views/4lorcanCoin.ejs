@@ -1,0 +1,338 @@
+<%- include partials/header.ejs %>
+
+<head>
+    <title>LorcanCoin</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
+    <style>
+        body {background-color: rgb(103, 219, 248);}
+        main {
+            background-color: rgb(146, 164, 214);
+            font-family: tahoma;
+            font-size: 33px;
+            display: flex;
+            flex-direction: row;
+        }
+      </style>
+  </head>
+  <body>
+    <main class="container">
+      <header class="text-md-center"> 
+          <button onclick="connectMetamask()">CONNECT TO METAMASK</button> <br>
+        <p id="accountArea">Connection Status: NOT CONNECTED to Metamask </p>
+      
+        <button onclick="connectContract()">CONNECT TO CONTRACT</button> <br>
+        <p id="contractArea">Connection Status: NOT CONNECTED to Smart Contract</p>
+
+        <button onclick="readTotalSupply()">GET total supply FROM CONTRACT</button> <br>
+        <p id="supplyArea">Data Status: NO Data from Smart Contract </p>
+      
+        <button onclick="readBalanceOf()">GET Balance FROM CONTRACT</button> <br>
+        <p id="balanceOfArea">Balance : NO Data from Smart Contract </p>
+     
+        <button onclick="transfer()">Transfer LorcanCoin to your ADDRESS</button> <br>
+        <input type="text" id="addressInput" placeholder="Enter Address"> <br>
+        <input type="number" id="amountInput" placeholder="Enter Amount"> 
+                <!-- CAlling the function designed in Transactions.sol -->
+      </header>
+    </main>
+  
+      <script>
+          let account;
+          const connectMetamask = async () => {
+              if(window.ethereum !== "undefined"){
+                  const accounts = await ethereum.request({method: "eth_requestAccounts"});
+                  account = accounts[0];
+                  document.getElementById("accountArea").innerHTML = `Account is: ${account}`;
+              }
+  
+          }
+  
+          const connectContract = async () => {
+              const ABI = [
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "Approval",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "Transfer",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "_totalSupply",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			}
+		],
+		"name": "allowance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "approve",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "decimals",
+		"outputs": [
+			{
+				"internalType": "uint8",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "symbol",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "tokenOwner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalSupply",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "recipient",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "transfer",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "sender",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "recipient",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+];        // smart contract address
+          const Address = "0xfa37404aAA75448f8102719a40DD1089707863CA";
+          window.web3 = await new Web3(window.ethereum);
+          window.contract = await new window.web3.eth.Contract(ABI, Address);
+          document.getElementById("contractArea").innerHTML = "Connection Status: Success";
+          }
+
+          // functions to read/write from the smart contract
+          const readTotalSupply = async () => {
+              const data = await window.contract.methods.totalSupply().call(); // methods is a convention to access the smart contract functions //read is call // value is write
+              document.getElementById("supplyArea").innerHTML = `Total Supply: ${data}`;
+          }
+          
+          const readBalanceOf = async () => {
+              const data = await window.contract.methods.balanceOf().call(); // methods is a convention to access the smart contract functions //read is call // value is write
+              document.getElementById("balanceOfArea").innerHTML = `Balance : ${data}`;
+          }
+          const transfer = async () => {
+            const amount = document.getElementById("amountInput").value;
+            const address = document.getElementById("addressInput").value;
+            await window.contract.methods.transfer(address, amount).send({from: account}); // send to account to change value 
+          }
+      </script>
+  </body>
+</html>
+
+  
+
+<%- include partials/footer.ejs %> 
