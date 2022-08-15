@@ -15,5 +15,7 @@ app.listen(port, () => {
     if (err) console.error(err);
 
   });
+  const server = app.listen(process.env.PORT || 5000)
+  const portNumber = server.address().port;
   console.log(`Server is running on port: ${port}`);
 });
