@@ -18,7 +18,7 @@ router.get('/1rps', function(req, res, next) {
 
 /* GET WALLET page. */
 router.get('/2monster', function(req, res, next) {
-  res.render('2moster', { title: 'Monster dApp' });
+  res.render('2monster', { title: 'Monster dApp' });
 });
 
 /* GET Carousel page. */
