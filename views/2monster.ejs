@@ -181,6 +181,21 @@
               const myEntry = document.getElementById("inputArea").value;
               await window.contract.methods.createMonster(myEntry).send({ from: account }); // send to account to change value 
           }
+
+		  var Monster = CryptoMonstersContract.at('0xfa37404aAA75448f8102719a40DD1089707863CA');
+				console.log(StudentDetails);
+		  Monster.getMonster(function(error,
+			result){
+			if(!error)
+			{
+			$("#instructor").html('Created Monster ' +result[0] + ' ' + result[1] + ' with DOB '+ result[2]);
+			console.log(result);
+			}
+			else
+			{
+			console.error(error);
+			}
+		});
       </script>
 </body>
 
